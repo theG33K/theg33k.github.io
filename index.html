@@ -1,1 +1,323 @@
-<html> <denter> Move along, nothing to see here </center> </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>theG33k — Howard DeWitt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#0f1b14;
+    --bg-panel:#16261c;
+    --bg-panel-2:#1c2f23;
+    --copper:#c97f4b;
+    --copper-bright:#e2a26b;
+    --silver:#b8c4be;
+    --led:#7fe0b0;
+    --cream:#ede6d6;
+    --dim:#8fa79a;
+    --trace: rgba(201,127,75,0.35);
+    --radius: 3px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 15% 0%, #17281d 0%, var(--bg-deep) 45%),
+      var(--bg-deep);
+    color:var(--cream);
+    font-family:'Space Grotesk', sans-serif;
+    line-height:1.6;
+  }
+  a{color:var(--copper-bright); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--led); outline-offset:3px;}
+
+  .mono{font-family:'IBM Plex Mono', monospace;}
+
+  /* faint PCB trace background pattern */
+  .traces{
+    position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0.16;
+    background-image:
+      linear-gradient(var(--trace) 1px, transparent 1px),
+      linear-gradient(90deg, var(--trace) 1px, transparent 1px);
+    background-size: 42px 42px;
+    mask-image: radial-gradient(ellipse at 50% 20%, black 0%, transparent 70%);
+  }
+
+  .wrap{position:relative; z-index:1; max-width:920px; margin:0 auto; padding:0 24px;}
+
+  /* NAV */
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 0; border-bottom:1px solid rgba(201,127,75,0.25);
+  }
+  .brand{font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:1.05rem; letter-spacing:0.5px; color:var(--cream);}
+  .brand span{color:var(--led);}
+  .navlinks{display:flex; gap:22px; font-family:'IBM Plex Mono',monospace; font-size:0.85rem;}
+  .navlinks a{color:var(--dim);}
+  .navlinks a:hover{color:var(--copper-bright);}
+
+  /* HERO */
+  .hero{
+    display:grid; grid-template-columns: 220px 1fr; gap:44px;
+    align-items:center; padding:64px 0 40px;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:0.8rem; color:var(--led);
+    display:flex; align-items:center; gap:8px; margin-bottom:14px;
+  }
+  .eyebrow .dot{width:7px; height:7px; border-radius:50%; background:var(--led); box-shadow:0 0 8px var(--led); animation:blink 2.4s infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.25;}}
+  h1{
+    font-family:'IBM Plex Mono',monospace; font-size:2.5rem; margin:0 0 10px; font-weight:700;
+    letter-spacing:-0.5px;
+  }
+  .tagline{color:var(--silver); font-size:1.05rem; max-width:46ch;}
+  .tagline em{color:var(--copper-bright); font-style:normal;}
+
+  /* IC CHIP PHOTO FRAME */
+  .chip{
+    position:relative; width:220px; height:220px; margin:0 auto;
+  }
+  .chip-body{
+    position:absolute; inset:14px;
+    background: var(--bg-panel-2);
+    border:2px solid var(--copper);
+    border-radius:6px;
+    overflow:hidden;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.4), 0 18px 40px -18px rgba(0,0,0,0.8);
+  }
+  .chip-body::after{
+    content:"";
+    position:absolute; top:8px; left:8px; width:10px; height:10px;
+    border:1px solid var(--copper); border-radius:50%;
+  }
+  .chip-body img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    filter:saturate(1.05) contrast(1.03);
+  }
+  .pins{position:absolute; inset:0;}
+  .pin{
+    position:absolute; width:16px; height:6px; background:var(--copper);
+    border-radius:1px;
+  }
+  .pin.left{left:0;}
+  .pin.right{right:0;}
+  .pin.top{width:6px; height:16px; top:0;}
+  .pin.bottom{width:6px; height:16px; bottom:0;}
+
+  /* NEOFETCH PANEL */
+  .panel{
+    background:var(--bg-panel);
+    border:1px solid rgba(201,127,75,0.3);
+    border-radius:var(--radius);
+    padding:22px 26px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.86rem;
+    margin-bottom:52px;
+  }
+  .panel .title{color:var(--copper-bright); margin-bottom:12px; font-weight:600;}
+  .fetch-row{display:flex; gap:10px; padding:3px 0; border-bottom:1px dashed rgba(184,196,190,0.08);}
+  .fetch-row:last-child{border-bottom:none;}
+  .fetch-key{color:var(--led); min-width:110px; flex-shrink:0;}
+  .fetch-val{color:var(--silver);}
+
+  /* SECTION HEADINGS */
+  .section-label{
+    font-family:'IBM Plex Mono',monospace; font-size:0.8rem; color:var(--dim);
+    text-transform:lowercase; margin-bottom:6px;
+  }
+  h2{
+    font-family:'IBM Plex Mono',monospace; font-size:1.4rem; margin:0 0 22px; color:var(--cream);
+  }
+  section{padding-bottom:56px;}
+
+  /* MODULES / HOBBIES */
+  .modules{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  .module{
+    background:var(--bg-panel);
+    border:1px solid rgba(201,127,75,0.22);
+    border-radius:var(--radius);
+    padding:18px 18px 16px;
+    position:relative;
+  }
+  .module::before{
+    content:"●"; color:var(--led); font-size:0.6rem; position:absolute; top:16px; right:16px;
+  }
+  .module h3{
+    font-family:'IBM Plex Mono',monospace; font-size:0.95rem; margin:0 0 8px; color:var(--copper-bright);
+  }
+  .module p{margin:0; color:var(--dim); font-size:0.92rem;}
+  .module .loaded{
+    display:block; margin-top:10px; font-family:'IBM Plex Mono',monospace; font-size:0.72rem; color:var(--led); opacity:0.85;
+  }
+
+  /* GIT LOG */
+  .log{border-left:2px solid rgba(201,127,75,0.3); padding-left:22px;}
+  .entry{position:relative; padding-bottom:26px;}
+  .entry:last-child{padding-bottom:0;}
+  .entry::before{
+    content:""; position:absolute; left:-27px; top:5px; width:10px; height:10px;
+    background:var(--bg-deep); border:2px solid var(--copper); border-radius:50%;
+  }
+  .commit-hash{font-family:'IBM Plex Mono',monospace; color:var(--led); font-size:0.82rem;}
+  .commit-msg{font-weight:600; margin:4px 0 4px;}
+  .commit-meta{font-family:'IBM Plex Mono',monospace; color:var(--dim); font-size:0.78rem;}
+
+  /* FOOTER */
+  footer{
+    border-top:1px solid rgba(201,127,75,0.25);
+    padding:30px 0 50px;
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;
+  }
+  .foot-links{display:flex; gap:20px; font-family:'IBM Plex Mono',monospace; font-size:0.85rem;}
+  .foot-note{font-family:'IBM Plex Mono',monospace; font-size:0.75rem; color:var(--dim);}
+
+  @media (max-width:640px){
+    .hero{grid-template-columns:1fr; text-align:center;}
+    .chip{margin:0 auto;}
+    .modules{grid-template-columns:1fr;}
+    nav{flex-direction:column; gap:12px; align-items:flex-start;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .eyebrow .dot{animation:none;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+<div class="traces" aria-hidden="true"></div>
+<div class="wrap">
+
+  <nav>
+    <div class="brand">the<span>G</span>33k<span>_</span></div>
+    <div class="navlinks">
+      <a href="#about">about</a>
+      <a href="#hobbies">modules</a>
+      <a href="#log">log</a>
+      <a href="https://github.com/theG33k" target="_blank" rel="noopener">github</a>
+    </div>
+  </nav>
+
+  <section class="hero" id="about">
+    <div class="chip">
+      <div class="pins">
+        <div class="pin left" style="top:20px;"></div>
+        <div class="pin left" style="top:50px;"></div>
+        <div class="pin left" style="top:80%;"></div>
+        <div class="pin left" style="top:110px;"></div>
+        <div class="pin right" style="top:20px;"></div>
+        <div class="pin right" style="top:50px;"></div>
+        <div class="pin right" style="top:80%;"></div>
+        <div class="pin right" style="top:110px;"></div>
+        <div class="pin top" style="left:40px;"></div>
+        <div class="pin top" style="left:80px;"></div>
+        <div class="pin top" style="left:120px;"></div>
+        <div class="pin top" style="left:160px;"></div>
+        <div class="pin bottom" style="left:40px;"></div>
+        <div class="pin bottom" style="left:80px;"></div>
+        <div class="pin bottom" style="left:120px;"></div>
+        <div class="pin bottom" style="left:160px;"></div>
+      </div>
+      <div class="chip-body">
+        <img src="me_theg33k.jpg" alt="Howard DeWitt, aka theG33k">
+      </div>
+    </div>
+
+    <div>
+      <div class="eyebrow"><span class="dot"></span>~ $ whoami</div>
+      <h1>Howard DeWitt</h1>
+      <p class="tagline">Goes by <em>theG33k</em> around here. I take things apart to see how they work, and I don't always get them back together. This page is my little corner of the internet for electronics, gaming, and whatever computer nonsense I'm elbow-deep in this week.</p>
+    </div>
+  </section>
+
+  <div class="panel" aria-label="system information, styled as a neofetch summary">
+    <div class="title">theg33k@github-pages</div>
+    <div class="fetch-row"><span class="fetch-key">Role</span><span class="fetch-val">Electronics tinkerer / gamer / professional yak-shaver</span></div>
+    <div class="fetch-row"><span class="fetch-key">Hobbies</span><span class="fetch-val">electronics, gaming, computers, retro hardware, homelab, soldering things I shouldn't</span></div>
+    <div class="fetch-row"><span class="fetch-key">Currently</span><span class="fetch-val">rebuilding something that already worked fine</span></div>
+    <div class="fetch-row"><span class="fetch-key">Uptime</span><span class="fetch-val">since forever, no reboot scheduled</span></div>
+    <div class="fetch-row"><span class="fetch-key">Shell</span><span class="fetch-val">whatever's fastest to type in</span></div>
+  </div>
+
+  <section id="hobbies">
+    <div class="section-label">// installed modules</div>
+    <h2>What I'm into</h2>
+    <div class="modules">
+      <div class="module">
+        <h3>electronics.ko</h3>
+        <p>Breadboards, solder smoke, and the occasional magic smoke escaping. Microcontrollers, sensors, and small builds that blink, beep, or both.</p>
+        <span class="loaded">[  OK  ] module loaded</span>
+      </div>
+      <div class="module">
+        <h3>gaming.ko</h3>
+        <p>Co-op, sim, and the odd roguelike that eats my weekend. Building the rig is half the hobby, playing on it is the other half.</p>
+        <span class="loaded">[  OK  ] module loaded</span>
+      </div>
+      <div class="module">
+        <h3>computers.ko</h3>
+        <p>Homelab experiments, old hardware brought back from the dead, and way too many terminal windows open at once.</p>
+        <span class="loaded">[  OK  ] module loaded</span>
+      </div>
+      <div class="module">
+        <h3>keyboards.ko</h3>
+        <p>Mechanical, hand-wired, and always one switch type away from being "the one." Ask me about my last group buy.</p>
+        <span class="loaded">[  OK  ] module loaded</span>
+      </div>
+      <div class="module">
+        <h3>retro.ko</h3>
+        <p>CRTs, old consoles, and boards from an era when repair meant a screwdriver, not a warranty claim.</p>
+        <span class="loaded">[  OK  ] module loaded</span>
+      </div>
+      <div class="module">
+        <h3>and-more.ko</h3>
+        <p>The list keeps growing. If it has a chip, a controller, or a power switch, odds are I've poked at it.</p>
+        <span class="loaded">[ INFO ] more modules pending</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="log">
+    <div class="section-label">// recent activity</div>
+    <h2>git log --oneline</h2>
+    <div class="log">
+      <div class="entry">
+        <div class="commit-hash">a1c4f9e</div>
+        <div class="commit-msg">wired up a new microcontroller build on the bench</div>
+        <div class="commit-meta">soldering iron still warm</div>
+      </div>
+      <div class="entry">
+        <div class="commit-hash">7b0e21d</div>
+        <div class="commit-msg">finally beat the boss I rage-quit on last month</div>
+        <div class="commit-meta">gaming rig, 2am session</div>
+      </div>
+      <div class="entry">
+        <div class="commit-hash">3f88a02</div>
+        <div class="commit-msg">re-imaged the homelab box after "one small change"</div>
+        <div class="commit-meta">computers, self-inflicted downtime</div>
+      </div>
+      <div class="entry">
+        <div class="commit-hash">e9d5c17</div>
+        <div class="commit-msg">said hello to the internet</div>
+        <div class="commit-meta">initial commit</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-note">theg33k.github.io — built with HTML, CSS, and a mild caffeine dependency</div>
+    <div class="foot-links">
+      <a href="https://github.com/theG33k" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:hello@theg33k.dev">Email</a>
+      <a href="#about">Back to top</a>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
